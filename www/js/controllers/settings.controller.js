@@ -1,11 +1,22 @@
 angular
-    .module('app')
-    .controller('SettingsCtrl', SettingsCtrl);
+	.module('app')
+	.controller('SettingsCtrl', SettingsCtrl);
 
-	//SettingsCtrl.inject = [];
+SettingsCtrl.$inject = ['SettingsService'];
 
-        
-        function SettingsCtrl() {
-            var vm = this;
+function SettingsCtrl(SettingsService) {
+	var vm = this;
+	vm.setRange = updateRange;
+	vm.setHours = updateHours;
 
-        }
+	vm.earthquake = getSettings();
+
+	function updateRange(earthquakeRange) {
+		SettingsService.setRange(earthquakeRange);
+	}
+
+	function updateHours(earthquakeHours) {
+		SettingsService.setHours(earthquakeHours);
+	}
+
+}
