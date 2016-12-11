@@ -1,10 +1,10 @@
-<ion-view view-title="Settings">
+<ion-view view-title="{{'settings_msg' | translate}}">
   <ion-content class="padding">
         <ion-list>
       
       <ion-item>
         <div class="row">
-          <div class="col"><label class="control-label">Range:</label></div>
+          <div class="col"><label class="control-label">{{'range_msg' | translate}}:</label></div>
           <div class="col">
             <input type="range" class="form-control" ng-attr-min="0" ng-attr-max="10" ng-change="vm.updateRange(vm.earthquake.range)"
 			   	    ng-model="vm.earthquake.range">
@@ -14,7 +14,7 @@
       
       <ion-item>
         <div class="row">
-          <div class="col"><label class="control-label">Last Hours:</label></div>
+          <div class="col"><label class="control-label">{{'last_hours_msg' | translate}}:</label></div>
           <div class="col">
             <input type="range" class="form-control" ng-attr-min="1" ng-attr-max="48" ng-change="vm.updateHours(vm.earthquake.hours)"
 			   	    ng-model="vm.earthquake.hours">
@@ -23,6 +23,17 @@
 			   
       </ion-item>
       
+	   <ion-item>
+        <div class="row">
+          <div class="col"><label class="control-label">{{'lang_msg' | translate}}:</label></div>
+          <div class="col">
+		  <select class="nobackgroundempty yellow" ng-init="vm.initLang()" ng-model="vm.lang">
+      		<option selected class="black" value="en">En</option>
+      		<option class="black" value="gr">Gr</option>
+    	</select>
+			   </div>
+			   
+      </ion-item>
       
     </ion-list>
   </ion-content>

@@ -1,6 +1,7 @@
 angular
 	.module('app', [
-		'ionic'
+		'ionic',
+        'pascalprecht.translate'
 		])
 
 	.run(function($ionicPlatform) {
