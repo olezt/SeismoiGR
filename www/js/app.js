@@ -1,7 +1,8 @@
 angular
 	.module('app', [
 		'ionic',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngMap'
 		])
 
 	.run(function($ionicPlatform) {
