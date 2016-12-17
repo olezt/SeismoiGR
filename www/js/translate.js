@@ -7,7 +7,8 @@ angular
             'range_msg': 'Range',
 			'lang_msg': 'Language',
 			'map_msg': 'Map',
-			'settings_msg': 'Settings'
+			'settings_msg': 'Settings',
+			'magnitude_msg': 'Magnitude'
         });
   
         $translateProvider.translations('gr', {
@@ -15,7 +16,8 @@ angular
             'range_msg': 'Διακύμανση',
 			'lang_msg': 'Γλώσσα',
 			'map_msg': 'Χαρτης',
-			'settings_msg': 'Ρυθμίσεις'
+			'settings_msg': 'Ρυθμίσεις',
+			'magnitude_msg': 'Μέγεθος'
         });
         
         $translateProvider.preferredLanguage('gr');
