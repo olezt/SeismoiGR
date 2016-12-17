@@ -4,9 +4,9 @@
       
       <ion-item>
         <div class="row">
-          <div class="col"><label class="control-label">{{'range_msg' | translate}}:</label></div>
+          <div class="col"><label class="control-label">{{'range_msg' | translate}}: {{vm.earthquake.range}}</label></div>
           <div class="col">
-            <input type="range" class="form-control" ng-attr-min="0" ng-attr-max="10" ng-change="vm.updateRange(vm.earthquake.range)"
+            <input type="range" class="form-control" min="0" max="10" ng-change="vm.updateRange(vm.earthquake.range)"
 			   	    ng-model="vm.earthquake.range">
 			   	</div>
 			   </div>
@@ -14,9 +14,9 @@
       
       <ion-item>
         <div class="row">
-          <div class="col"><label class="control-label">{{'last_hours_msg' | translate}}:</label></div>
+          <div class="col"><label class="control-label">{{'last_hours_msg' | translate}}: {{vm.earthquake.hours}}</label></div>
           <div class="col">
-            <input type="range" class="form-control" ng-attr-min="1" ng-attr-max="48" ng-change="vm.updateHours(vm.earthquake.hours)"
+            <input type="range" class="form-control" min="1" max="48" ng-change="vm.updateHours(vm.earthquake.hours)"
 			   	    ng-model="vm.earthquake.hours">
 			   	</div>
 			   </div>
