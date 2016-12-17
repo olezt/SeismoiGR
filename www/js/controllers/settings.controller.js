@@ -6,8 +6,8 @@ SettingsCtrl.$inject = ['SettingsService', '$translate', '$scope'];
 
 function SettingsCtrl(SettingsService, $translate, $scope) {
 	var vm = this;
-	vm.setRange = updateRange;
-	vm.setHours = updateHours;
+	vm.updateRange = updateRange;
+	vm.updateHours = updateHours;
 	vm.updateLang = vm.updateLang;
     vm.initLang = initLang;
 
