@@ -20,10 +20,8 @@ function SettingsService() {
 
 	function initSettings() {
 		settings = [];
-		settings.push({
-			range : window.localStorage['range'],
-			hours : window.localStorage['hours']
-		});
+		settings.range = window.localStorage['range'];
+		settings.hours = window.localStorage['hours'];
 	}
 
 	function getSettings() {
