@@ -4,7 +4,7 @@ angular
 
         $translateProvider.translations('en', {
             'last_hours_msg': 'Last hours',
-            'range_msg': 'Range',
+            'range_msg': 'Min Magnitude',
 			'lang_msg': 'Language',
 			'map_msg': 'Map',
 			'settings_msg': 'Settings',
@@ -15,7 +15,7 @@ angular
   
         $translateProvider.translations('gr', {
         	'last_hours_msg': 'Διάστημα ωρών',
-            'range_msg': 'Διακύμανση',
+            'range_msg': 'Ελάχιστο μέγεθος',
 			'lang_msg': 'Γλώσσα',
 			'map_msg': 'Χαρτης',
 			'settings_msg': 'Ρυθμίσεις',
