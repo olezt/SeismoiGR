@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('MapCtrl', MapCtrl);
 
-    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService'];
+    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location'];
 
-function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
+function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
 	var recent = [];
@@ -15,7 +15,17 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 
         refreshDiv.index = 1;
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(refreshDiv);
+        
+    	$scope.$on('$locationChangeSuccess', function(event) {
+    		if($location.url()=='/app/map'){
+  		  		clearData(map);
+  		  		loadData(map);
+    		}
+  		});
+        
 	});
+	
+
 	
 	function loadData(map) {
 		var bounceDate = new Date();
