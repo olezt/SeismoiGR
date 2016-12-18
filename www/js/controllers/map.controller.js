@@ -2,12 +2,15 @@ angular
     .module('app')
     .controller('MapCtrl', MapCtrl);
 
-    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location'];
+    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval'];
 
-function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location) {
+function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
+	var on = true;
+	var blinkInterval;
 	var recent = [];
+	
 	NgMap.getMap().then(function(map) {
 		loadData(map);
 		var refreshDiv = document.createElement('div');
@@ -25,14 +28,13 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
         
 	});
 	
-
-	
 	function loadData(map) {
 		var bounceDate = new Date();
-		bounceDate.setHours(bounceDate.getHours() + 2 - 13);
+		bounceDate.setHours(bounceDate.getHours() + 2 - 4);
 		map.data.loadGeoJson(calculateApiUrl(), null, function() {
 			createInfoWindows(map);
 			setIconStyle(map, bounceDate);
+			blinkRecent(map);
 		});
 	}
 
@@ -40,6 +42,9 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		map.data.forEach(function(feature) {
 		    map.data.remove(feature);
 		});
+		recent = [];
+		$interval.cancel(blinkInterval);
+		blinkInterval = undefined;
 		google.maps.event.clearListeners(map.data, 'click');
 	}
 	
@@ -77,6 +82,16 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		});
 	}
 	
+	function blinkRecent(map){
+		blinkInterval = $interval(function() {
+			recent.forEach(function(feature) {
+				map.data.overrideStyle(feature, {visible : on});
+			});
+			on = !on;
+		}, 500);
+	}
+	
+	
 	function setIconStyle(map, bounceDate) {
 		map.data.setStyle(function(feature) {
 			var magnitude = feature.getProperty('mag');
@@ -91,8 +106,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 				color = 'red';
 			}
 			if(featureDate > bounceDate){
+				recent.push(feature);
 				strokeColor = 'black';
 			}
+
 			return {
 				icon : {
 					path: google.maps.SymbolPath.CIRCLE,
@@ -101,7 +118,8 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			        scale: Math.pow(2, magnitude) / 1.7,
 			        strokeColor: strokeColor,
 			        strokeWeight: .5
-				}
+				},
+				visible: true
 			};
 		});
 	}
