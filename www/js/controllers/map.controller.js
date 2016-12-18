@@ -46,14 +46,19 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 
 	function createInfoWindows(map) {
 		var infowindow = new google.maps.InfoWindow();
-		var magTranslation;
-		$translate('magnitude_msg').then(function(mag) {
-			magTranslation = mag;
+//		var magTranslation;
+//		$translate('magnitude_msg').then(function(mag) {
+//			magTranslation = mag;
+//		}, function(translationId) {});
+		$translate('depth_msg').then(function(depth) {
+			depthTranslation = depth;
 		}, function(translationId) {});
 		listenerHandle = map.data.addListener('click', function(event) {
 			var date = new Date(event.feature.getProperty("time"));
 			var mag = event.feature.getProperty("mag");
-			infowindow.setContent("<div style='width:150px; text-align: center;'>" + magTranslation + " " + mag + "<br>" + date + "</div>");
+			var depth = event.feature.getProperty("depth");
+			infowindow.setContent("<div style='width:150px; text-align: left;'><b>" + mag + " M<br>"+date.toDateString() +", "+ date.toLocaleTimeString() +"</b><br><br>" +
+					"<b>"+depthTranslation+"</b>: "+depth+"</div>");
 			infowindow.setPosition(event.feature.getGeometry().get());
 			infowindow.setOptions({
 				pixelOffset : new google.maps.Size(0, -5)
