@@ -7,7 +7,7 @@ angular
 function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
-
+	var recent = [];
 	NgMap.getMap().then(function(map) {
 		loadData(map);
 		var refreshDiv = document.createElement('div');
@@ -17,11 +17,12 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(refreshDiv);
 	});
 	
-	
 	function loadData(map) {
+		var bounceDate = new Date();
+		bounceDate.setHours(bounceDate.getHours() + 2 - 13);
 		map.data.loadGeoJson(calculateApiUrl(), null, function() {
 			createInfoWindows(map);
-			setIconStyle(map);
+			setIconStyle(map, bounceDate);
 		});
 	}
 
@@ -46,10 +47,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 
 	function createInfoWindows(map) {
 		var infowindow = new google.maps.InfoWindow();
-//		var magTranslation;
-//		$translate('magnitude_msg').then(function(mag) {
-//			magTranslation = mag;
-//		}, function(translationId) {});
+		var magTranslation;
+		$translate('magnitude_msg').then(function(mag) {
+			magTranslation = mag;
+		}, function(translationId) {});
 		$translate('depth_msg').then(function(depth) {
 			depthTranslation = depth;
 		}, function(translationId) {});
@@ -57,8 +58,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 			var date = new Date(event.feature.getProperty("time"));
 			var mag = event.feature.getProperty("mag");
 			var depth = event.feature.getProperty("depth");
-			infowindow.setContent("<div style='width:150px; text-align: left;'><b>" + mag + " M<br>"+date.toDateString() +", "+ date.toLocaleTimeString() +"</b><br><br>" +
-					"<b>"+depthTranslation+"</b>: "+depth+"</div>");
+			infowindow.setContent("<div style='width:150px; text-align: left;'><b>"+ magTranslation + ":</b> " + mag + " M<br><b>"+depthTranslation+"</b>: "+depth+" km<br>"+date.toDateString() +", "+ date.toLocaleTimeString('en-US',{ hour12: false }) +"</div>");
 			infowindow.setPosition(event.feature.getGeometry().get());
 			infowindow.setOptions({
 				pixelOffset : new google.maps.Size(0, -5)
@@ -66,10 +66,12 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 			infowindow.open(map);
 		});
 	}
-
-	function setIconStyle(map) {
+	
+	function setIconStyle(map, bounceDate) {
 		map.data.setStyle(function(feature) {
 			var magnitude = feature.getProperty('mag');
+			var featureDate = new Date(feature.getProperty("time"));
+			var strokeColor = 'white';
 			var color;
 			if(magnitude<3){
 				color = 'blue';
@@ -78,13 +80,16 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
 			}else {
 				color = 'red';
 			}
+			if(featureDate > bounceDate){
+				strokeColor = 'black';
+			}
 			return {
 				icon : {
 					path: google.maps.SymbolPath.CIRCLE,
 			        fillColor: color,
 			        fillOpacity: .5,
 			        scale: Math.pow(2, magnitude) / 1.7,
-			        strokeColor: 'white',
+			        strokeColor: strokeColor,
 			        strokeWeight: .5
 				}
 			};
@@ -116,7 +121,6 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService) {
         controlText.innerHTML = '<i class = "icon icon ion-refresh"></i>';
         controlUI.appendChild(controlText);
 
-        // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
         	clearData(map);
         	loadData(map);
