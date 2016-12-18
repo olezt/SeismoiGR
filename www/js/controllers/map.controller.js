@@ -68,7 +68,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			var date = new Date(event.feature.getProperty("time"));
 			var mag = event.feature.getProperty("mag");
 			var depth = event.feature.getProperty("depth");
-			infowindow.setContent("<div style='width:150px; text-align: left;'><b>"+ magTranslation + ":</b> " + mag + " M<br><b>"+depthTranslation+"</b>: "+depth+" km<br>"+date.toDateString() +", "+ date.toLocaleTimeString('en-US',{ hour12: false }) +"</div>");
+			infowindow.setContent("<div style='width:160px; text-align: left;'>"+date.toDateString() +", "+ date.toLocaleTimeString('en-US',{ hour12: false }) +"<br><b>"+ magTranslation + ":</b> " + mag + " M<br><b>"+depthTranslation+"</b>: "+depth+" km</div>");
 			infowindow.setPosition(event.feature.getGeometry().get());
 			infowindow.setOptions({
 				pixelOffset : new google.maps.Size(0, -5)
