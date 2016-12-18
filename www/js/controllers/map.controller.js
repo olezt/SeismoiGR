@@ -118,6 +118,8 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
         controlUI.style.marginBottom = '22px';
         controlUI.style.textAlign = 'center';
         controlUI.style.marginRight = '10px';
+        controlUI.style.marginBottom = '0px';
+        controlUI.style.opacity = '0.9'
         controlDiv.appendChild(controlUI);
 
         // Set CSS for the control interior.
