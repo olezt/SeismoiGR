@@ -10,7 +10,9 @@ angular
 			'settings_msg': 'Settings',
 			'magnitude_msg': 'Magnitude',
 			'time_msg': 'Time',
-			'depth_msg': 'Depth'
+			'depth_msg': 'Depth',
+			'static_msg': 'Static',
+			'dynamic_msg': 'Dynamic'
         });
   
         $translateProvider.translations('gr', {
@@ -21,7 +23,9 @@ angular
 			'settings_msg': 'Ρυθμίσεις',
 			'magnitude_msg': 'Μέγεθος',
 			'time_msg': 'Ώρα',
-			'depth_msg': 'Εστιακό βάθος'
+			'depth_msg': 'Εστιακό βάθος',
+			'static_msg': 'Στατικό',
+			'dynamic_msg': 'Δυναμικό'
         });
         
         $translateProvider.preferredLanguage('gr');
