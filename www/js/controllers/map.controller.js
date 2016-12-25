@@ -16,7 +16,6 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	NgMap.getMap().then(function(map) {
 		addBoundsListener(map);
-		loadData(map);
         
 	    $scope.$watch('vm.mode', function() {
 	        updateMode(map);
@@ -154,8 +153,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     
     function updateMode (map) {
     	MapService.setMode(vm.mode);
-    	clearData(map);
-    	loadData(map);
+    	refreshData(map);
     }
     
     function initMode(){
