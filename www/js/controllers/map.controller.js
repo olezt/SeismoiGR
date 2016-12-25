@@ -113,12 +113,15 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			var featureDate = new Date(feature.getProperty("time"));
 			var strokeColor = 'white';
 			var color;
+			var scale;
 			if(magnitude<3){
-				color = 'blue';
-			}else if(magnitude<4){
-				color = 'yellow';
-			}else {
-				color = 'red';
+				color = '#0004FF'; //blue
+			}else if(magnitude < 4){
+				color = '#FFF300'; //yellow
+			}else if(magnitude < 6){
+				color = '#FF0000'; //red
+			}else{
+				color = '#A20404'; //dark red
 			}
 			if(featureDate > bounceDate){
 				recent.push(feature);
@@ -130,7 +133,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 					path: google.maps.SymbolPath.CIRCLE,
 			        fillColor: color,
 			        fillOpacity: .5,
-			        scale: Math.pow(2, magnitude) / 1.7,
+			        scale: 1.7*magnitude,
 			        strokeColor: strokeColor,
 			        strokeWeight: .5
 				},
