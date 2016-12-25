@@ -1,8 +1,18 @@
 <ion-view view-title="{{'map_msg' | translate}}">
+	<ion-nav-buttons side="right">
+        <select ng-init="vm.initMode()" ng-model="vm.mode">
+      		<option selected class="black" value="static">Greece</option>
+      		<option class="black" value="dynamic">Dynamic</option>
+    	</select>
+	</ion-nav-buttons> 
  	<ion-content scroll="false">
   		<ng-map street-view-control="false" center="37.960990, 23.707768" zoom="6" ng-style="{'height':vm.mapHeight}" default-style="false">
   		  	<custom-control id="refreshButton" position="RIGHT_BOTTOM" index="1" ng-click="vm.refreshData(map)">
       			<div class = "icon icon ion-refresh mapButton"></div>
+    		</custom-control>
+    		
+    		<custom-control id="setBoundsButton" ng-if="vm.mode=='dynamic'" position="RIGHT_BOTTOM" index="2" ng-click="vm.setBounds(map)">
+      			<div class = "icon icon ion-ios-photos mapButton"></div>
     		</custom-control>
   		</ng-map>
     </ion-content>

@@ -8,13 +8,20 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
 	vm.refreshData = refreshData;
+	vm.setBounds = setBounds;
+	vm.initMode = initMode;
 	var on = true;
 	var blinkInterval;
 	var recent = [];
 	
 	NgMap.getMap().then(function(map) {
+		addBoundsListener(map);
 		loadData(map);
         
+	    $scope.$watch('vm.mode', function() {
+	        updateMode(map);
+	    });
+		
     	$scope.$on('$locationChangeSuccess', function(event) {
     		if($location.url()=='/app/map'){
     			refreshData(map);
@@ -50,7 +57,15 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	function calculateApiUrl() {
 		var startTime = calculateTimeRequest();
-		var apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
+		var apiUrl;
+		if(vm.mode == "static"){
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
+		}else if(vm.mode == "dynamic" && MapService.getDynamicBounds()){
+			var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
+		}else{
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
+		}
 		return apiUrl;
 	}
 
@@ -123,5 +138,32 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			};
 		});
 	}
+	
+	function addBoundsListener (map) {
+    	google.maps.event.addListener(map, 'bounds_changed', function() {
+        	try {
+            	vm.currentBounds = map.getBounds();
+        	} catch( err ) {
+            	alert( err );
+        	}
+    	});
+	}
+    
+    function updateMode (map) {
+    	MapService.setMode(vm.mode);
+    	clearData(map);
+    	loadData(map);
+    }
+    
+    function initMode(){
+    	vm.mode = MapService.getMode();
+    }
+
+    function setBounds(map){
+    	if(vm.currentBounds){
+    		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
+    	}
+    	refreshData(map);
+    }
 
 }
