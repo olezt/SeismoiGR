@@ -7,26 +7,26 @@ angular
 function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
+	vm.refreshData = refreshData;
 	var on = true;
 	var blinkInterval;
 	var recent = [];
 	
 	NgMap.getMap().then(function(map) {
 		loadData(map);
-		var refreshDiv = document.createElement('div');
-        var centerControl = new CenterControl(refreshDiv, map);
-
-        refreshDiv.index = 1;
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(refreshDiv);
         
     	$scope.$on('$locationChangeSuccess', function(event) {
     		if($location.url()=='/app/map'){
-  		  		clearData(map);
-  		  		loadData(map);
+    			refreshData(map);
     		}
   		});
         
 	});
+	
+	function refreshData(map){
+		clearData(map);
+		loadData(map);
+	}
 	
 	function loadData(map) {
 		var bounceDate = new Date();
@@ -123,38 +123,5 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			};
 		});
 	}
-	
-    function CenterControl(controlDiv, map) {
 
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '22px';
-        controlUI.style.textAlign = 'center';
-        controlUI.style.marginRight = '10px';
-        controlUI.style.marginBottom = '0px';
-        controlUI.style.opacity = '0.9'
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '25px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<i class = "icon icon ion-refresh"></i>';
-        controlUI.appendChild(controlText);
-
-        controlUI.addEventListener('click', function() {
-        	clearData(map);
-        	loadData(map);
-        });
-
-      }
 }

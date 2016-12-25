@@ -1,5 +1,9 @@
 <ion-view view-title="{{'map_msg' | translate}}">
  	<ion-content scroll="false">
-  		<ng-map street-view-control="false" center="37.960990, 23.707768" zoom="6" ng-style="{'height':vm.mapHeight}" default-style="false"></ng-map>
+  		<ng-map street-view-control="false" center="37.960990, 23.707768" zoom="6" ng-style="{'height':vm.mapHeight}" default-style="false">
+  		  	<custom-control id="refreshButton" position="RIGHT_BOTTOM" index="1" ng-click="vm.refreshData(map)">
+      			<div class = "icon icon ion-refresh mapButton"></div>
+    		</custom-control>
+  		</ng-map>
     </ion-content>
 </ion-view>
