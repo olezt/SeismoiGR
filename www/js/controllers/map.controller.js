@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('MapCtrl', MapCtrl);
 
-    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval'];
+    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval', 'STATIC_BOUNDS'];
 
-function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval) {
+function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
 	vm.refreshData = refreshData;
@@ -60,7 +60,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		var startTime = calculateTimeRequest();
 		var apiUrl;
 		if(vm.mode == "static"){
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat='+STATIC_BOUNDS.SOUTH+'&maxlat='+STATIC_BOUNDS.NORTH+'&minlon='+STATIC_BOUNDS.WEST+'&maxlon='+STATIC_BOUNDS.EAST+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}else if(vm.mode == "dynamic" && MapService.getDynamicBounds()){
 			var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
 			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
@@ -166,8 +166,8 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     		bounds = createDynamicLatLngBounds();
     		map.fitBounds(bounds);
     	}else{
-			var ne = new google.maps.LatLng(41.707, 27.901);
-    		var sw = new google.maps.LatLng(33.853, 18.578);
+			var ne = new google.maps.LatLng(STATIC_BOUNDS.NORTH, STATIC_BOUNDS.EAST);
+    		var sw = new google.maps.LatLng(STATIC_BOUNDS.SOUTH, STATIC_BOUNDS.WEST);
     		bounds = new google.maps.LatLngBounds(sw, ne);
     		map.fitBounds(bounds);
     	}
