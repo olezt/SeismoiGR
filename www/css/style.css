@@ -25,13 +25,12 @@
 	width: 50%;
 	margin-left: auto;
     margin-right: auto; 
-	background-color : #fff;
-	border : 2px solid #fff;
+	border : 1px solid #fff;
 	border-radius : 3px;
 	box-shadow : '0 2px 6px rgba(0,0,0,.3)';
 	text-align : center;
 	opacity : 0.9;
-	color : rgb(25,25,25);
+	color : #fff;
 	font-family : Roboto,Arial,sans-serif;
 	font-size : 15px;
 }
@@ -44,6 +43,7 @@
     width: 100%;
 }
 .tab-nav.tabs{
+	border-top: transparent;
 	background-color : #ef473a;
 }
 .bar-stable.bar.bar-header{
@@ -76,4 +76,12 @@
 .nobackground{
     background-color: rgba(0, 0, 0, 0);
     border-color: rgba(0, 0, 0, 0);
+}
+.bar{
+	   border-bottom: 2px solid black;
+	   opacity: 1;
+}
+.bar.bar-stable {
+    border-color: transparent;
+
 }
