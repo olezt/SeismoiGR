@@ -171,6 +171,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     		bounds = new google.maps.LatLngBounds(sw, ne);
     		map.fitBounds(bounds);
     	}
+		map.setZoom(map.getZoom()+1);
 		drawRectangle(map, bounds);
 	}
 	
