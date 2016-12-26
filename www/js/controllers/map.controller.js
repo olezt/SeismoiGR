@@ -2,58 +2,67 @@ angular
     .module('app')
     .controller('MapCtrl', MapCtrl);
 
-    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval', 'STATIC_BOUNDS', 'SETTINGS'];
+    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval', 'STATIC_BOUNDS', 'SETTINGS', 'ConnectionService'];
 
-function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS, SETTINGS) {
+function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS, SETTINGS, ConnectionService) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
 	vm.refreshData = refreshData;
 	vm.setBounds = setBounds;
 	vm.initMode = initMode;
+	var globalMap;
 	var on = true;
 	var blinkInterval;
 	var recent = [];
 	var rectangle;
 	
-	NgMap.getMap().then(function(map) {
-		addBoundsListener(map);
-		fitBounds(map);
-		
-	    $scope.$watch('vm.mode', function() {
-	        updateMode(map);
-	    });
-		
-    	$scope.$on('$locationChangeSuccess', function(event) {
-    		if($location.url()=='/app/map'){
-    			refreshData(map);
-    		}
-  		});
-        
-	});
-	
-	function refreshData(map){
-		clearData(map);
-		loadData(map);
+	addConnectivityListeners();
+	if(ConnectionService.getConnection()){
+		initMap();
 	}
-	
-	function loadData(map) {
-		var bounceDate = new Date();
-		bounceDate.setHours(bounceDate.getHours() + 2 - 4);
-		map.data.loadGeoJson(calculateApiUrl(), null, function() {
-			createInfoWindows(map);
-			setIconStyle(map, bounceDate);
-			blinkRecent(map);
+
+	function initMap() {
+		NgMap.getMap().then(function(map) {
+			globalMap = map;
+			addBoundsListener();
+			fitBounds();
+
+			$scope.$watch('vm.mode', function() {
+				updateMode();
+			});
+
+			$scope.$on('$locationChangeSuccess', function(event) {
+				if ($location.url() == '/app/map') {
+					refreshData();
+				}
+			});
+
 		});
 	}
 
-	function clearData(map) {
-		map.data.forEach(function(feature) {
-		    map.data.remove(feature);
+	function refreshData(){
+		clearData();
+		loadData();
+	}
+	
+	function loadData() {
+		var bounceDate = new Date();
+		bounceDate.setHours(bounceDate.getHours() + 2 - 4);
+		globalMap.data.loadGeoJson(calculateApiUrl(), null, function() {
+			createInfoWindows();
+			setIconStyle(bounceDate);
+			blinkRecent();
+		});
+	}
+
+	function clearData() {
+		globalMap.data.forEach(function(feature) {
+			globalMap.data.remove(feature);
 		});
 		recent = [];
 		$interval.cancel(blinkInterval);
 		blinkInterval = undefined;
-		google.maps.event.clearListeners(map.data, 'click');
+		google.maps.event.clearListeners(globalMap.data, 'click');
 	}
 	
 	function calculateApiUrl() {
@@ -74,7 +83,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		return date.toJSON();
 	}
 
-	function createInfoWindows(map) {
+	function createInfoWindows() {
 		var infowindow = new google.maps.InfoWindow();
 		var magTranslation;
 		$translate('magnitude_msg').then(function(mag) {
@@ -83,7 +92,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		$translate('depth_msg').then(function(depth) {
 			depthTranslation = depth;
 		}, function(translationId) {});
-		listenerHandle = map.data.addListener('click', function(event) {
+		listenerHandle = globalMap.data.addListener('click', function(event) {
 			var date = new Date(event.feature.getProperty("time"));
 			var mag = event.feature.getProperty("mag");
 			var depth = event.feature.getProperty("depth");
@@ -92,22 +101,22 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			infowindow.setOptions({
 				pixelOffset : new google.maps.Size(0, -5)
 			});
-			infowindow.open(map);
+			infowindow.open(globalMap);
 		});
 	}
 	
-	function blinkRecent(map){
+	function blinkRecent(){
 		blinkInterval = $interval(function() {
 			recent.forEach(function(feature) {
-				map.data.overrideStyle(feature, {visible : on});
+				globalMap.data.overrideStyle(feature, {visible : on});
 			});
 			on = !on;
 		}, 500);
 	}
 	
 	
-	function setIconStyle(map, bounceDate) {
-		map.data.setStyle(function(feature) {
+	function setIconStyle(bounceDate) {
+		globalMap.data.setStyle(function(feature) {
 			var magnitude = feature.getProperty('mag');
 			var featureDate = new Date(feature.getProperty("time"));
 			var strokeColor = 'white';
@@ -141,10 +150,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		});
 	}
 	
-	function addBoundsListener (map) {
-    	google.maps.event.addListener(map, 'bounds_changed', function() {
+	function addBoundsListener () {
+    	google.maps.event.addListener(globalMap, 'bounds_changed', function() {
         	try {
-            	vm.currentBounds = map.getBounds();
+            	vm.currentBounds = globalMap.getBounds();
         	} catch( err ) {
             	alert( err );
         	}
@@ -158,29 +167,29 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		return new google.maps.LatLngBounds(sw, ne);
 	}
 	
-	function fitBounds(map){
+	function fitBounds(){
 		var bounds;
 		if(vm.mode == "dynamic"){
     		bounds = createDynamicLatLngBounds();
-    		map.fitBounds(bounds);
+    		globalMap.fitBounds(bounds);
     	}else{
 			var ne = new google.maps.LatLng(STATIC_BOUNDS.NORTH, STATIC_BOUNDS.EAST);
     		var sw = new google.maps.LatLng(STATIC_BOUNDS.SOUTH, STATIC_BOUNDS.WEST);
     		bounds = new google.maps.LatLngBounds(sw, ne);
-    		map.fitBounds(bounds);
+    		globalMap.fitBounds(bounds);
     	}
-		map.setZoom(map.getZoom()+1);
-		drawRectangle(map, bounds);
+		globalMap.setZoom(globalMap.getZoom()+1);
+		drawRectangle(bounds);
 	}
 	
-	function drawRectangle(map, bounds){
+	function drawRectangle(bounds){
 		if(!rectangle){
 			rectangle = new google.maps.Rectangle({
 	          strokeColor: '#FF0000',
 	          strokeOpacity: 0.4,
 	          strokeWeight: 1,
 	          fillOpacity: 0,
-	          map: map,
+	          map: globalMap,
 	          bounds: bounds
 	        });
 		}else{
@@ -188,22 +197,48 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		}
 	}
 	
-    function updateMode (map) {
+    function updateMode () {
     	MapService.setMode(vm.mode);
-    	refreshData(map);
-    	fitBounds(map);
+    	refreshData();
+    	fitBounds();
     }
     
     function initMode(){
     	vm.mode = MapService.getMode();
     }
 
-    function setBounds(map){
+    function setBounds(){
     	if(vm.currentBounds){
     		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
-    		drawRectangle(map, createDynamicLatLngBounds());
+    		drawRectangle(createDynamicLatLngBounds());
     	}
-    	refreshData(map);
+    	refreshData();
     }
 
+	function onOffline(){
+		console.log("offline");
+	}
+	
+	function onOnline(){
+		console.log("online");
+        if (google && google.maps && typeof google === 'object' && typeof google.maps === 'object') {
+            console.log("ok googlemaps");
+            refreshData();
+		}else{
+			$window.location.reload();
+		}
+	}
+    
+    function addConnectivityListeners() {
+      //Running on a device 
+      if (ionic.Platform.isWebView()) {
+          $rootScope.$on('$cordovaNetwork:online', onOnline);
+          $rootScope.$on('$cordovaNetwork:offline', onOffline);
+      //Running on browser
+      } else {
+          window.addEventListener("online", onOnline, false);
+          window.addEventListener("offline", onOffline, false);
+      }
+  }
+    
 }
