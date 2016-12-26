@@ -1,12 +1,12 @@
 <ion-view view-title="{{'map_msg' | translate}}">
 	<ion-nav-buttons side="right">
-        <select ng-init="vm.initMode()" ng-model="vm.mode">
+        <select ng-init="vm.initMode()" ng-model="vm.mode" ng-disabled="!vm.isOnline">
       		<option selected class="black" value="static">{{'static_msg' | translate}}</option>
       		<option class="black" value="dynamic">{{'dynamic_msg' | translate}}</option>
     	</select>
 	</ion-nav-buttons>
  	<ion-content scroll="false">
- 		<div map-lazy-load="https://maps.google.com/maps/api/js">
+ 		<div ng-show="vm.isOnline" map-lazy-load="https://maps.google.com/maps/api/js">
   			<ng-map street-view-control="false" center="37.960990, 23.707768" zoom="6" min-zoom="3" ng-style="{'height':vm.mapHeight}">
   		  		<custom-control id="refreshButton" position="RIGHT_BOTTOM" index="1" ng-click="vm.refreshData(map)">
       				<div class = "icon icon ion-refresh mapButton"></div>
@@ -16,6 +16,11 @@
       				<div class = "icon icon ion-ios-photos mapButton"></div>
     			</custom-control>
   			</ng-map>
+  		</div>
+  		<div ng-show="!vm.isOnline" class="mapIsHidden" >
+  			<div class="verticalCenter">
+  				<div class="noConnectionText">{{'no_connection_msg' | translate}}</div>
+  			</div>
   		</div>
     </ion-content>
 </ion-view>

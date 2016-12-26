@@ -18,7 +18,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	addConnectivityListeners();
 	if(ConnectionService.getConnection()){
+		vm.isOnline = true;
 		initMap();
+	}else{
+		vm.isOnline = false;
 	}
 
 	function initMap() {
@@ -217,11 +220,13 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 
 	function onOffline(){
 		console.log("offline");
+		vm.isOnline = false;
 	}
 	
 	function onOnline(){
+		vm.isOnline = true;
 		console.log("online");
-        if (google && google.maps && typeof google === 'object' && typeof google.maps === 'object') {
+        if (google && google.maps && typeof google === 'object' && typeof google.maps === 'object' && globalMap) {
             console.log("ok googlemaps");
             refreshData();
 		}else{
