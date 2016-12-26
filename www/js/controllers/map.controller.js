@@ -153,13 +153,17 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     	});
 	}
     
+	function createDynamicLatLngBounds(){
+		var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
+		var ne = new google.maps.LatLng(dynamicBounds.north, dynamicBounds.east);
+		var sw = new google.maps.LatLng(dynamicBounds.south, dynamicBounds.west);
+		return new google.maps.LatLngBounds(sw, ne);
+	}
+	
 	function fitBounds(map){
 		var bounds;
 		if(vm.mode == "dynamic"){
-    		var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
-    		var ne = new google.maps.LatLng(dynamicBounds.north, dynamicBounds.east);
-    		var sw = new google.maps.LatLng(dynamicBounds.south, dynamicBounds.west);
-    		bounds = new google.maps.LatLngBounds(sw, ne);
+    		bounds = createDynamicLatLngBounds();
     		map.fitBounds(bounds);
     	}else{
 			var ne = new google.maps.LatLng(41.707, 27.901);
@@ -192,14 +196,9 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     }
 
     function setBounds(map){
-    	var dynamicBounds;
     	if(vm.currentBounds){
     		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
-    		dynamicBounds = JSON.parse(MapService.getDynamicBounds());
-    		var ne = new google.maps.LatLng(dynamicBounds.north, dynamicBounds.east);
-    		var sw = new google.maps.LatLng(dynamicBounds.south, dynamicBounds.west);
-    		bounds = new google.maps.LatLngBounds(sw, ne);
-        	rectangle.setBounds(bounds);
+        	rectangle.setBounds(createDynamicLatLngBounds());
     	}
     	refreshData(map);
     }
