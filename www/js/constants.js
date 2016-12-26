@@ -5,4 +5,8 @@ angular
     	'EAST': 28.726044,
     	'SOUTH': 34.284733,
     	'WEST': 18.748591
-    });
+    })
+    
+    .constant('SETTINGS', {
+    	'MARKERS_LIMIT': 2000
+    })

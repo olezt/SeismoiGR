@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('MapCtrl', MapCtrl);
 
-    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval', 'STATIC_BOUNDS'];
+    MapCtrl.inject = ['MapService', 'ngMap', '$window', '$translate', 'SettingsService', '$scope', '$location', '$interval', 'STATIC_BOUNDS', 'SETTINGS'];
 
-function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS) {
+function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS, SETTINGS) {
 	var vm = this;
 	vm.mapHeight = $window.innerHeight - 92 + "px";
 	vm.refreshData = refreshData;
@@ -60,12 +60,12 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		var startTime = calculateTimeRequest();
 		var apiUrl;
 		if(vm.mode == "static"){
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat='+STATIC_BOUNDS.SOUTH+'&maxlat='+STATIC_BOUNDS.NORTH+'&minlon='+STATIC_BOUNDS.WEST+'&maxlon='+STATIC_BOUNDS.EAST+'&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+STATIC_BOUNDS.SOUTH+'&maxlat='+STATIC_BOUNDS.NORTH+'&minlon='+STATIC_BOUNDS.WEST+'&maxlon='+STATIC_BOUNDS.EAST+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}else if(vm.mode == "dynamic" && MapService.getDynamicBounds()){
 			var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}else{
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit=1000&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat=33.853&maxlat=41.707&minlon=18.578&maxlon=27.901&minmag=' + SettingsService.getRange() + '&format=json';
 		}
 		return apiUrl;
 	}
