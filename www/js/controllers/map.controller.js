@@ -171,6 +171,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     		bounds = new google.maps.LatLngBounds(sw, ne);
     		map.fitBounds(bounds);
     	}
+		drawRectangle(map, bounds);
+	}
+	
+	function drawRectangle(map, bounds){
 		if(!rectangle){
 			rectangle = new google.maps.Rectangle({
 	          strokeColor: '#FF0000',
@@ -198,7 +202,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     function setBounds(map){
     	if(vm.currentBounds){
     		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
-        	rectangle.setBounds(createDynamicLatLngBounds());
+    		drawRectangle(map, createDynamicLatLngBounds());
     	}
     	refreshData(map);
     }
