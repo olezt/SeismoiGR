@@ -13,6 +13,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	var on = true;
 	var blinkInterval;
 	var recent = [];
+	var rectangle;
 	
 	NgMap.getMap().then(function(map) {
 		addBoundsListener(map);
@@ -153,18 +154,31 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	}
     
 	function fitBounds(map){
+		var bounds;
 		if(vm.mode == "dynamic"){
     		var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
     		var ne = new google.maps.LatLng(dynamicBounds.north, dynamicBounds.east);
     		var sw = new google.maps.LatLng(dynamicBounds.south, dynamicBounds.west);
-    		var bounds = new google.maps.LatLngBounds(sw, ne);
+    		bounds = new google.maps.LatLngBounds(sw, ne);
     		map.fitBounds(bounds);
     	}else{
 			var ne = new google.maps.LatLng(41.707, 27.901);
     		var sw = new google.maps.LatLng(33.853, 18.578);
-    		var greeceBounds = new google.maps.LatLngBounds(sw, ne);
-    		map.fitBounds(greeceBounds);
+    		bounds = new google.maps.LatLngBounds(sw, ne);
+    		map.fitBounds(bounds);
     	}
+		if(!rectangle){
+			rectangle = new google.maps.Rectangle({
+	          strokeColor: '#FF0000',
+	          strokeOpacity: 0.4,
+	          strokeWeight: 1,
+	          fillOpacity: 0,
+	          map: map,
+	          bounds: bounds
+	        });
+		}else{
+			rectangle.setBounds(bounds);
+		}
 	}
 	
     function updateMode (map) {
@@ -178,8 +192,14 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     }
 
     function setBounds(map){
+    	var dynamicBounds;
     	if(vm.currentBounds){
     		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
+    		dynamicBounds = JSON.parse(MapService.getDynamicBounds());
+    		var ne = new google.maps.LatLng(dynamicBounds.north, dynamicBounds.east);
+    		var sw = new google.maps.LatLng(dynamicBounds.south, dynamicBounds.west);
+    		bounds = new google.maps.LatLngBounds(sw, ne);
+        	rectangle.setBounds(bounds);
     	}
     	refreshData(map);
     }
