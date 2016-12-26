@@ -1,6 +1,7 @@
 angular
 	.module('app', [
 		'ionic',
+		'ngCordova',
         'pascalprecht.translate',
         'ngMap'
 		])
