@@ -37,9 +37,43 @@
 }
 .mapIsHidden{
 	background-color : black;
-	opacity : 0.8;
+	opacity : 1;
 	display: table;
     position: absolute;
     height: 100%;
     width: 100%;
+}
+.tab-nav.tabs{
+	background-color : #ef473a;
+}
+.bar-stable.bar.bar-header{
+	background-color : #ef473a;
+}
+.tab-title{
+	color: #fff;
+}
+.item{
+	color: black;
+}
+.icon{
+	color: #fff;
+}
+.map-icon{
+	color: black !important;
+	opacity: 0.9;
+}
+.title.title-center.header-item{
+	color: #fff;
+}
+.selectWhite{
+	color: #fff;
+	border-color: #fff !important;
+	border : 2px solid #fff;
+	border-radius : 3px;
+	box-shadow : '0 2px 6px rgba(0,0,0,.3)';
+	text-align : center;
+}
+.nobackground{
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
 }
