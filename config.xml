@@ -8,7 +8,10 @@
       Your Name Here
     </author>
   <content src="index.html"/>
-  <access origin="*"/>
+  <allow-navigation href="*"/>
+  <access origin="http://www.seismicportal.eu*"/>
+  <allow-intent href="https://maps.google.com/maps/api/js*"/>
+  
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
