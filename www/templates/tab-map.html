@@ -1,19 +1,9 @@
-<ion-view view-title="{{'map_msg' | translate}}" ng-cloak>
-	<ion-nav-buttons side="right">
-        <select ng-init="vm.initMode()" class="nobackground selectWhite" ng-model="vm.mode" ng-disabled="!vm.isOnline" ng-class="{'disabled-class': !vm.isOnline}">
-      		<option selected class="black" value="static" ng-cloak>{{'static_msg' | translate}}</option>
-      		<option class="black" value="dynamic" ng-cloak>{{'dynamic_msg' | translate}}</option>
-    	</select>
-	</ion-nav-buttons>
+<ion-view hide-nav-bar="true">
  	<ion-content scroll="false">
  		<div ng-show="vm.isOnline" map-lazy-load="https://maps.google.com/maps/api/js">
   			<ng-map street-view-control="false" center="37.960990, 23.707768" zoom="6" min-zoom="3" ng-style="{'height':vm.mapHeight}">
-  		  		<custom-control id="refreshButton" position="RIGHT_BOTTOM" index="1" ng-click="vm.refreshData(map)">
+  		  		<custom-control id="refreshButton" position="RIGHT_BOTTOM" index="1" ng-click="vm.setBounds()">
       				<div class = "icon icon map-icon ion-refresh mapButton"></div>
-    			</custom-control>
-    		
-    			<custom-control ng-show="vm.mode=='dynamic'" id="setBoundsButton" position="RIGHT_BOTTOM" index="2" ng-click="vm.setBounds(map)">
-      				<div class = "icon icon map-icon ion-ios-photos mapButton"></div>
     			</custom-control>
   			</ng-map>
   		</div>

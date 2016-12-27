@@ -24,7 +24,6 @@ angular
 	.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 		
 		$ionicConfigProvider.tabs.position('bottom');
-		$ionicConfigProvider. navBar.alignTitle('center');
 		
 		$stateProvider
 			// setup an abstract state for the tabs directive

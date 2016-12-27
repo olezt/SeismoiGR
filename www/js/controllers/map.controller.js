@@ -6,16 +6,14 @@ angular
 
 function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS, SETTINGS, ConnectionService) {
 	var vm = this;
-	vm.mapHeight = $window.innerHeight - 92 + "px";
+	vm.mapHeight = $window.innerHeight - 48.99 + "px";
 	vm.refreshData = refreshData;
 	vm.setBounds = setBounds;
-	vm.initMode = initMode;
 	var globalMap;
 	var on = true;
 	var blinkInterval;
 	var recent = [];
 	var rectangle;
-	
 	
 	if(ConnectionService.getConnection()){
 		vm.isOnline = true;
@@ -30,29 +28,26 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			globalMap = map;
 			addBoundsListener();
 			fitBounds();
-
-			$scope.$watch('vm.mode', function() {
-				updateMode();
-			});
-
+			refreshData(true);
+			
 			$scope.$on('$locationChangeSuccess', function(event) {
 				if ($location.url() == '/app/map') {
-					refreshData();
+					refreshData(false);
 				}
 			});
 
 		});
 	}
 
-	function refreshData(){
+	function refreshData(init){
 		clearData();
-		loadData();
+		loadData(init);
 	}
 	
-	function loadData() {
+	function loadData(init) {
 		var bounceDate = new Date();
 		bounceDate.setHours(bounceDate.getHours() + 2 - 4);
-		globalMap.data.loadGeoJson(calculateApiUrl(), null, function() {
+		globalMap.data.loadGeoJson(calculateApiUrl(init), null, function() {
 			createInfoWindows();
 			setIconStyle(bounceDate);
 			blinkRecent();
@@ -69,10 +64,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		google.maps.event.clearListeners(globalMap.data, 'click');
 	}
 	
-	function calculateApiUrl() {
+	function calculateApiUrl(init) {
 		var startTime = calculateTimeRequest();
 		var apiUrl;
-		if(vm.mode == "dynamic" && MapService.getDynamicBounds()){
+		if(!init && MapService.getDynamicBounds()){
 			var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
 			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}else{
@@ -172,16 +167,10 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	}
 	
 	function fitBounds(){
-		var bounds;
-		if(vm.mode == "dynamic"){
-    		bounds = createDynamicLatLngBounds();
-    		globalMap.fitBounds(bounds);
-    	}else{
-			var ne = new google.maps.LatLng(STATIC_BOUNDS.NORTH, STATIC_BOUNDS.EAST);
-    		var sw = new google.maps.LatLng(STATIC_BOUNDS.SOUTH, STATIC_BOUNDS.WEST);
-    		bounds = new google.maps.LatLngBounds(sw, ne);
-    		globalMap.fitBounds(bounds);
-    	}
+		var ne = new google.maps.LatLng(STATIC_BOUNDS.NORTH, STATIC_BOUNDS.EAST);
+    	var sw = new google.maps.LatLng(STATIC_BOUNDS.SOUTH, STATIC_BOUNDS.WEST);
+    	var bounds = new google.maps.LatLngBounds(sw, ne);
+    	globalMap.fitBounds(bounds);
 		globalMap.setZoom(globalMap.getZoom()+1);
 		drawRectangle(bounds);
 	}
@@ -200,23 +189,13 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			rectangle.setBounds(bounds);
 		}
 	}
-	
-    function updateMode () {
-    	MapService.setMode(vm.mode);
-    	refreshData();
-    	fitBounds();
-    }
-    
-    function initMode(){
-    	vm.mode = MapService.getMode();
-    }
 
     function setBounds(){
     	if(vm.currentBounds){
     		MapService.setDynamicBounds(JSON.stringify(vm.currentBounds));
     		drawRectangle(createDynamicLatLngBounds());
     	}
-    	refreshData();
+    	refreshData(false);
     }
 
 	function onOffline(){
@@ -225,7 +204,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	function onOnline(){
 		vm.isOnline = true;
-        refreshData();
+        refreshData(false);
 	}
     
     function addConnectivityListeners() {
