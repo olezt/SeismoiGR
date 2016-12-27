@@ -15,7 +15,7 @@
 			</ion-item>
 		
 			<ion-item>
-         		<div class="row">{{'range_msg' | translate}}: {{vm.earthquake.range | number:1}}</div>
+         		<div class="row"><label class="control-label">{{'range_msg' | translate}}: {{vm.earthquake.range | number:1}}</label></div>
           		<div class="row">
 					<input type="range" class="form-control row" min="0" max="5" step="0.2" ng-change="vm.updateRange(vm.earthquake.range)"
 			   	    	ng-model="vm.earthquake.range">
