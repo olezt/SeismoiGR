@@ -21,10 +21,12 @@ angular
 		});
 	})
 
-	.config(function($stateProvider, $urlRouterProvider) {
-
+	.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+		
+		$ionicConfigProvider.tabs.position('bottom');
+		$ionicConfigProvider. navBar.alignTitle('center');
+		
 		$stateProvider
-
 			// setup an abstract state for the tabs directive
 			.state('app', {
 				url: '/app',
@@ -38,24 +40,22 @@ angular
 				url: '/map',
 				views: {
 					'tab-map': {
-        templateUrl: 'templates/tab-map.html',
-        controller: 'MapCtrl as vm'
-      }
-    }
-  })
+						templateUrl: 'templates/tab-map.html',
+						controller: 'MapCtrl as vm'
+					}
+				}
+			})
 
-  .state('app.settings', {
-      url: '/settings',
-      views: {
-        'tab-settings': {
-          templateUrl: 'templates/tab-settings.html',
-          controller: 'SettingsCtrl as vm'
-        }
-      }
-    })
-    
-    
-    $urlRouterProvider.otherwise('/app/map');
+			.state('app.settings', {
+				url: '/settings',
+				views: {
+					'tab-settings': {
+						templateUrl: 'templates/tab-settings.html',
+						controller: 'SettingsCtrl as vm'
+					}
+				}
+			})
 
+		$urlRouterProvider.otherwise('/app/map');
   });
 
