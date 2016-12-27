@@ -32,7 +32,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 			
 			$scope.$on('$locationChangeSuccess', function(event) {
 				if ($location.url() == '/app/map') {
-					refreshData(false);
+					setBounds();
 				}
 			});
 
