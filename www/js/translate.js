@@ -13,7 +13,10 @@ angular
 			'depth_msg': 'Depth',
 			'static_msg': 'Static',
 			'dynamic_msg': 'Dynamic',
-			'no_connection_msg': 'No connection'
+			'no_connection_msg': 'No connection',
+			'english_msg': 'English',
+			'greek_msg': 'Ελληνικά'
+
         });
   
         $translateProvider.translations('gr', {
@@ -27,7 +30,9 @@ angular
 			'depth_msg': 'Εστιακό βάθος',
 			'static_msg': 'Στατικό',
 			'dynamic_msg': 'Δυναμικό',
-			'no_connection_msg': 'Δεν υπάρχει σύνδεση'
+			'no_connection_msg': 'Δεν υπάρχει σύνδεση',
+			'english_msg': 'English',
+			'greek_msg': 'Ελληνικά'
         });
         
         $translateProvider.preferredLanguage('gr');

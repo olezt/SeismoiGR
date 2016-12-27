@@ -4,11 +4,11 @@
 		
 			<ion-item>
         		<div class="row">
-          			<div class="col"><label class="control-label" ng-cloak>{{'lang_msg' | translate}}:</label></div>
-          			<div class="col">
-		  				<select class="nobackgroundempty yellow" ng-init="vm.initLang()" ng-model="vm.lang">
-      						<option selected class="black" value="en">En</option>
-      						<option class="black" value="gr">Gr</option>
+          			<div class="col-left"><label class="control-label" ng-cloak>{{'lang_msg' | translate}}:</label></div>
+          			<div class="col-right">
+		  				<select class="nobackground" ng-init="vm.initLang()" ng-model="vm.lang">
+      						<option selected class="black" value="en">{{'english_msg' | translate}}</option>
+      						<option class="black" value="gr">{{'greek_msg' | translate}}</option>
     					</select>
 			   		</div>
 			   	</div>
