@@ -1,8 +1,8 @@
-<ion-view view-title="{{'map_msg' | translate}}">
+<ion-view view-title="{{'map_msg' | translate}}" ng-cloak>
 	<ion-nav-buttons side="right">
         <select ng-init="vm.initMode()" class="nobackground selectWhite" ng-model="vm.mode" ng-disabled="!vm.isOnline">
-      		<option selected class="black" value="static">{{'static_msg' | translate}}</option>
-      		<option class="black" value="dynamic">{{'dynamic_msg' | translate}}</option>
+      		<option selected class="black" value="static" ng-cloak>{{'static_msg' | translate}}</option>
+      		<option class="black" value="dynamic" ng-cloak>{{'dynamic_msg' | translate}}</option>
     	</select>
 	</ion-nav-buttons>
  	<ion-content scroll="false">
@@ -19,7 +19,7 @@
   		</div>
   		<div ng-show="!vm.isOnline" class="mapIsHidden" >
   			<div class="verticalCenter">
-  				<div class="noConnectionText">{{'no_connection_msg' | translate}}</div>
+  				<div class="noConnectionText" ng-cloak>{{'no_connection_msg' | translate}}</div>
   			</div>
   		</div>
     </ion-content>
