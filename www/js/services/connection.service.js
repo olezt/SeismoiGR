@@ -2,9 +2,7 @@ angular
     .module('app')
     .factory('ConnectionService', ConnectionService);
 
-ConnectionService.inject = [ '$cordovaNetwork', '$rootScope' ];
-
-function ConnectionService($cordovaNetwork, $rootScope) {
+function ConnectionService() {
 	var service = {
 		getConnection : getConnection
 	};
@@ -12,20 +10,10 @@ function ConnectionService($cordovaNetwork, $rootScope) {
 	return service;
 
 	function getConnection() {
-		//device                  
-		if (ionic.Platform.isWebView()) {
-			if ($cordovaNetwork.isOnline()) {
-				return true;
-			} else {
-				return false;
-			}
-		//browser
+		if (navigator.onLine) {
+			return true;
 		} else {
-			if (navigator.onLine) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 }

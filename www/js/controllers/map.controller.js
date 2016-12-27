@@ -16,14 +16,15 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	var recent = [];
 	var rectangle;
 	
-	addConnectivityListeners();
+	
 	if(ConnectionService.getConnection()){
 		vm.isOnline = true;
 		initMap();
 	}else{
 		vm.isOnline = false;
 	}
-
+	addConnectivityListeners();
+	
 	function initMap() {
 		NgMap.getMap().then(function(map) {
 			globalMap = map;
@@ -219,31 +220,17 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     }
 
 	function onOffline(){
-		console.log("offline");
 		vm.isOnline = false;
 	}
 	
 	function onOnline(){
 		vm.isOnline = true;
-		console.log("online");
-        if (google && google.maps && typeof google === 'object' && typeof google.maps === 'object' && globalMap) {
-            console.log("ok googlemaps");
-            refreshData();
-		}else{
-			$window.location.reload();
-		}
+        refreshData();
 	}
     
     function addConnectivityListeners() {
-      //Running on a device 
-      if (ionic.Platform.isWebView()) {
-          $rootScope.$on('$cordovaNetwork:online', onOnline);
-          $rootScope.$on('$cordovaNetwork:offline', onOffline);
-      //Running on browser
-      } else {
-          window.addEventListener("online", onOnline, false);
-          window.addEventListener("offline", onOffline, false);
-      }
-  }
+    	window.addEventListener("online", onOnline, false);
+    	window.addEventListener("offline", onOffline, false);
+    }
     
 }
