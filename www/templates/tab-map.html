@@ -1,6 +1,6 @@
 <ion-view view-title="{{'map_msg' | translate}}" ng-cloak>
 	<ion-nav-buttons side="right">
-        <select ng-init="vm.initMode()" class="nobackground selectWhite" ng-model="vm.mode" ng-disabled="!vm.isOnline">
+        <select ng-init="vm.initMode()" class="nobackground selectWhite" ng-model="vm.mode" ng-disabled="!vm.isOnline" ng-class="{'disabled-class': !vm.isOnline}">
       		<option selected class="black" value="static" ng-cloak>{{'static_msg' | translate}}</option>
       		<option class="black" value="dynamic" ng-cloak>{{'dynamic_msg' | translate}}</option>
     	</select>
