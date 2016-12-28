@@ -14,6 +14,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	var blinkInterval;
 	var recent = [];
 	var rectangle;
+	window.L_DISABLE_3D = true;
 	
 	if(ConnectionService.getConnection()){
 		vm.isOnline = true;
