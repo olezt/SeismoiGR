@@ -10,7 +10,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	vm.refreshData = refreshData;
 	vm.setBounds = setBounds;
 	var globalMap;
-	var on = true;
+	var fillOpacity = 0.5;
 	var blinkInterval;
 	var recent = [];
 	var rectangle;
@@ -109,9 +109,22 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	function blinkRecent(){
 		blinkInterval = $interval(function() {
 			recent.forEach(function(feature) {
-				globalMap.data.overrideStyle(feature, {visible : on});
+				globalMap.data.overrideStyle(feature, {
+					icon : {
+						path: google.maps.SymbolPath.CIRCLE,
+				        fillColor: (feature.getProperty('mag')<3?'#0004FF':(feature.getProperty('mag')<4?'#FFF300':(feature.getProperty('mag')<6?'#FF0000':'#A20404'))),
+				        fillOpacity: fillOpacity,
+				        scale: 1.7*feature.getProperty('mag'),
+				        strokeColor: 'black',
+				        strokeWeight: fillOpacity
+					}
+				});
 			});
-			on = !on;
+			if(fillOpacity == 0.5){
+				fillOpacity = 0;
+			}else{
+				fillOpacity = 0.5;
+			}
 		}, 500);
 	}
 	
