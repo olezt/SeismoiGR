@@ -25,6 +25,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	function initMap() {
 		NgMap.getMap().then(function(map) {
+			addAdMob();
 			globalMap = map;
 			addBoundsListener();
 			fitBounds();
@@ -212,4 +213,17 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
     	window.addEventListener("offline", onOffline, false);
     }
     
+	function addAdMob(){
+		if(AdMob){
+			AdMob.createBanner({
+				adId: 'ca-app-pub-4306883957951881/4263180858', 
+				isTesting: true,
+				position: AdMob.AD_POSITION.TOP_CENTER,
+				autoShow: true,
+				success: function(){
+					vm.mapHeight = $window.innerHeight - 98.99 + "px";
+			  }
+			});
+		}
+	}
 }
