@@ -71,9 +71,9 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 		var apiUrl;
 		if(!init && MapService.getDynamicBounds()){
 			var dynamicBounds = JSON.parse(MapService.getDynamicBounds());
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'https://cors-anywhere.herokuapp.com/http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+dynamicBounds.south+'&maxlat='+dynamicBounds.north+'&minlon='+dynamicBounds.west+'&maxlon='+dynamicBounds.east+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}else{
-			apiUrl = 'http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+STATIC_BOUNDS.SOUTH+'&maxlat='+STATIC_BOUNDS.NORTH+'&minlon='+STATIC_BOUNDS.WEST+'&maxlon='+STATIC_BOUNDS.EAST+'&minmag=' + SettingsService.getRange() + '&format=json';
+			apiUrl = 'https://cors-anywhere.herokuapp.com/http://www.seismicportal.eu/fdsnws/event/1/query?limit='+SETTINGS.MARKERS_LIMIT+'&start=' + startTime + '&minlat='+STATIC_BOUNDS.SOUTH+'&maxlat='+STATIC_BOUNDS.NORTH+'&minlon='+STATIC_BOUNDS.WEST+'&maxlon='+STATIC_BOUNDS.EAST+'&minmag=' + SettingsService.getRange() + '&format=json';
 		}
 		return apiUrl;
 	}
