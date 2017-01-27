@@ -36,7 +36,7 @@ Used to access information on device's network state.<br />
 ### Map implementation
 
 **GoogleMap AngularJS Directive** <br />
-https://github.com/allenhwkim/angularjs-google-maps
+https://github.com/allenhwkim/angularjs-google-maps<br />
 Used to integrate with Google Maps Api the angular way.
 
 ### Google API used
