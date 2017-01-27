@@ -19,8 +19,8 @@ function SettingsService() {
 
 	function initSettings() {
 		settings = [];
-		settings.range = window.localStorage['range'] || 0;
-		settings.hours = window.localStorage['hours'] || 48;
+		settings.range = getRange();
+		settings.hours = getHours();
 	}
 
 	function getSettings() {
@@ -29,7 +29,7 @@ function SettingsService() {
 	}
 
 	function getHours() {
-		return window.localStorage['hours'];
+		return window.localStorage['hours'] || 48;
 	}
 
 	function setHours(hours) {
@@ -37,7 +37,7 @@ function SettingsService() {
 	}
 
 	function getRange() {
-		return window.localStorage['range'];
+		return window.localStorage['range'] || 0;
 	}
 
 	function setRange(range) {
