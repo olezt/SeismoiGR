@@ -9,7 +9,7 @@
 ### Description
 
 This application is a hybrid application that is designed to illustrate 
-the activity of earthquakes worldwide in real time. Technologies used are Apache cordova, Ionic and AngularJS frameworks.
+the activity of earthquakes worldwide in real time. Technologies used are Apache cordova, Ionic and AngularJS frameworksm, Javascript and HTML5. Currently supports Greek and English.
 
 Data are retrieved from http://www.seismicportal.eu only for educational purposes.
 
@@ -32,3 +32,14 @@ Used to enable Cross origin requests.<br />
 **Network Information Plugin**<br />
 https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-network-information/index.html <br />
 Used to access information on device's network state.<br />
+
+### Map implementation
+
+**GoogleMap AngularJS Directive** <br />
+https://github.com/allenhwkim/angularjs-google-maps
+Used to integrate with Google Maps Api the angular way.
+
+### Google API used
+
+**Google Maps Javascript API**<br />
+Used to create the google maps object.<br />
