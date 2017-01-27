@@ -4,7 +4,6 @@ angular
 
 function SettingsService() {
 	var settings = [];
-	var lang = window.localStorage['lang'] || 'gr';
 	initSettings();
 
 	var service = {
@@ -20,8 +19,8 @@ function SettingsService() {
 
 	function initSettings() {
 		settings = [];
-		settings.range = window.localStorage['range'];
-		settings.hours = window.localStorage['hours'];
+		settings.range = window.localStorage['range'] || 0;
+		settings.hours = window.localStorage['hours'] || 48;
 	}
 
 	function getSettings() {
@@ -46,7 +45,7 @@ function SettingsService() {
 	}
 
 	function getLang() {
-		return window.localStorage['lang'];
+		return window.localStorage['lang']  || 'en';
 	}
 
 	function setLang(newLang) {
