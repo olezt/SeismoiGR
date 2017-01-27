@@ -6,7 +6,8 @@ angular
 
 function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope, $location, $interval, STATIC_BOUNDS, SETTINGS, ConnectionService) {
 	var vm = this;
-	vm.mapHeight = $window.innerHeight - 48.99 + "px";
+	vm.mapHeight = 600 - 48.99 + "px";
+	console.log(vm.mapHeight);
 	vm.refreshData = refreshData;
 	vm.setBounds = setBounds;
 	var globalMap;

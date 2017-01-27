@@ -92,3 +92,23 @@
 	background-color: rgba(0, 0, 0, 0) !important;
 	opacity: .3;
 }
+
+.phone-case {
+	margin-top:20px;
+    float: right;
+    position: absolute;
+    z-index: 1;
+    width: 380px;
+    height: 810px;
+    background: url(../img/phone-case.png) no-repeat right top;
+}
+
+.phone-case-margin{
+	width:340px;
+	height:600px;
+	padding-top: 90px;
+	padding-bottom: 90px;
+	padding-left: 27px;
+	position: absolute;
+}
+
