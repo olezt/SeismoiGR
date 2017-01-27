@@ -15,6 +15,12 @@ Data are retrieved from http://www.seismicportal.eu only for educational purpose
 
 **All interesting files concerning the implementation are at /www folder :D**
 
+### Printscreens
+
+<p align="center">
+  <img src="printscreens/printscreen_2.png" height="450"/>
+  <img src="printscreens/printscreen_1.png" height="450"/>
+</p>
 
 ### Setup environment for development - Requirements
 
