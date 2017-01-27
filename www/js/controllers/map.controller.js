@@ -26,7 +26,7 @@ function MapCtrl(MapService, NgMap, $window, $translate, SettingsService, $scope
 	
 	function initMap() {
 		NgMap.getMap().then(function(map) {
-			addAdMob();
+//			addAdMob();
 			globalMap = map;
 			addBoundsListener();
 			fitBounds();
