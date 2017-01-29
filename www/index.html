@@ -48,23 +48,38 @@
     <script src="js/services/map.service.js"></script>
     <script src="js/services/settings.service.js"></script>
     <script src="js/services/connection.service.js"></script>
-    
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1RlpsPiVY1X4AR5l2xPKD3A9bRkf3oq4" async defer></script>-->
-    
+        
   </head>
-  <body ng-app="app">
-    <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
-
-        <div class="phone-case">
-        <div class="phone-case-margin-between">
-        	<div class="phone-case-margin">
-            	<ion-nav-view></ion-nav-view>
-        	</div></div>
-    	</div>
-
+  <body ng-app="app" class="background-image">
+  	
+  	<div class="row scroll">
+		<div class="col col-33 col-offset-10">
+			<div class="text-background">
+        		<div class="text-case-margin">
+        			<h1>SeismoiGR</h1>
+        			<br>
+        			<h3>Live interpretation of earthquakes worldwide.</h3>
+        			<br>
+        			<p>This application is a hybrid application that is designed to illustrate the 
+        				activity of earthquakes worldwide in real time. Technologies used are Apache 
+        				cordova, Ionic and AngularJS frameworksm, Javascript and HTML5.
+        				Currently supports Greek and English.<br><br>
+        				Data are retrieved from <a href="http://www.seismicportal.eu">SeismicPortal</a> only for educational purposes.<br><br>
+        			</p>
+        			<p class="author">
+        				Author: olezt
+        			</p>
+        		</div>
+    		</div>
+		</div>
+		<div class="col col-33">
+        	<div class="phone-case">
+        		<div class="phone-case-margin">
+            		<ion-nav-view></ion-nav-view>
+        		</div>
+    		</div>
+		</div>
+ 	</div>
+    
   </body>
 </html>

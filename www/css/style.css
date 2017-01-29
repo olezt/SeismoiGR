@@ -94,21 +94,73 @@
 }
 
 .phone-case {
-	margin-top:20px;
+	display:block;
+	margin-top:18px;
     float: right;
-    position: absolute;
+    position: relative;
     z-index: 1;
-    width: 380px;
-    height: 810px;
-    background: url(../img/phone-case.png) no-repeat right top;
+    width: 281px;
+    height: 610px;
+    background: url(../img/phone-case-610.png) no-repeat right top;
+}
+
+.text-background {
+	margin-top:18px;
+    float: right;
+    position: relative;
+    z-index: 1;
+    width: 281px;
+    height: 610px;
+    background: url(../img/text_background_610.png) no-repeat right top;
 }
 
 .phone-case-margin{
-	width:340px;
-	height:600px;
-	padding-top: 90px;
-	padding-bottom: 90px;
-	padding-left: 27px;
-	position: absolute;
+	width:261px;
+	height:475px;
+	padding-top: 60px;
+	padding-left: 10px;
+	position: relative;
 }
 
+.text-case-margin{
+	width:271px;
+	height:475px;
+	padding-top: 90px;
+	padding-left: 10px;
+	position: relative;
+}
+
+.background-image{
+	background: url(../img/background.jpg) no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+html,body{height:100%}
+
+.scroll{
+	height:100%;
+	overflow:auto;
+}
+
+p{
+	color:white;
+	text-align:justify;
+}
+a{
+	color:white;
+}
+h1{
+	color:white;
+	text-align: center;
+}
+h3{
+	color:white;
+	text-align:justify;
+}
+
+.author{
+	text-align: right;
+}
