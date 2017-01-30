@@ -114,6 +114,17 @@
     background: url(../img/text_background_610.png) no-repeat right top;
 }
 
+.text-background-vertical {
+
+	margin-top:350px;
+    float: right;
+    position: relative;
+    z-index: 1;
+    width: 244px;
+    height: 100px;
+    background: url(../img/text_background_vertical_610.png) no-repeat right top;
+}
+
 .phone-case-margin{
 	width:261px;
 	height:475px;
@@ -130,8 +141,17 @@
 	position: relative;
 }
 
+.text-vertical-case-margin{
+	width:244px;
+	height:100px;
+	padding-top: 12px;
+	padding-left: 35px;
+	padding-right: 8px;
+	position: relative;
+}
+
 .background-image{
-	background: url(../img/background_ghpage.jpg) no-repeat center center fixed; 
+	background: url(../img/background.jpg) no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
