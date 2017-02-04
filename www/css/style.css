@@ -102,6 +102,7 @@
     width: 281px;
     height: 610px;
     background: url(../img/phone-case-610.png) no-repeat right top;
+    overflow:hidden;
 }
 
 .text-background {
@@ -160,7 +161,7 @@
 
 html,body{height:100%}
 
-.scroll{
+.enable-scroll{
 	height:100%;
 	overflow:auto;
 }
