@@ -136,7 +136,7 @@
 .text-case-margin{
 	width:271px;
 	height:475px;
-	padding-top: 90px;
+	padding-top: 120px;
 	padding-left: 10px;
 	position: relative;
 }
@@ -168,6 +168,7 @@ html,body{height:100%}
 p{
 	color:white;
 	text-align:justify;
+	letter-spacing: -1px;
 }
 a{
 	color:white;
@@ -178,7 +179,7 @@ h1{
 }
 h3{
 	color:white;
-	text-align:justify;
+	text-align:center;
 }
 
 .author{
